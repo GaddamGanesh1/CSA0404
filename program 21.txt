@@ -1,0 +1,31 @@
+#include <stdio.h>
+
+int main() {
+    int m, n, i, j, worst, b[10], p[10], alloc[10];
+
+    printf("Blocks: "); scanf("%d", &m);
+    for(i = 0; i < m; i++) scanf("%d", &b[i]);
+
+    printf("Processes: "); scanf("%d", &n);
+    for(i = 0; i < n; i++) scanf("%d", &p[i]);
+
+    for(i = 0; i < n; i++) alloc[i] = -1;
+
+    for(i = 0; i < n; i++) {
+        worst = -1;
+        for(j = 0; j < m; j++)
+            if(b[j] >= p[i] && (worst == -1 || b[j] > b[worst]))
+                worst = j;
+
+        if(worst != -1) {
+            alloc[i] = worst;
+            b[worst] -= p[i];
+        }
+    }
+
+    printf("\nPNo\tSize\tBlock\n");
+    for(i = 0; i < n; i++)
+        printf("%d\t%d\t%s%d\n", i+1, p[i], alloc[i]==-1?"Not ":"", alloc[i]+1);
+
+    return 0;
+}
